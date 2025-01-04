@@ -8,7 +8,11 @@ var isPlummeting;
 var isFalling;
 var collectable;
 var scrollPos = 0;
-var tree_x;
+var trees_x;
+var treePos_y;
+var clouds;
+var mountains;
+var cameraPosX = 0;
 
 
 
@@ -23,7 +27,63 @@ function setup() {
 	isFalling = false;
 	collectable = { x_pos: 200, y_pos: 410, size: 50, isFound: false }
 	canyon = { x_pos: 300, width: 100 };
-	tree_x = [300, 500, 900, 1150]
+	//tree
+	trees_x = [10, 480, 680, 900, 1150]
+	treePos_y = height / 2;
+	//clouds
+	clouds = [
+	{
+		x_pos: 300,   // X position of the cloud
+		y_pos: 100,   // Y position of the cloud
+		width: 150,   // Width of the cloud
+		height: 60    // Height of the cloud
+	}, {
+		x_pos: 600,   // X position of the cloud
+		y_pos: 100,   // Y position of the cloud
+		width: 150,   // Width of the cloud
+		height: 60    // Height of the cloud
+	}, {
+		x_pos: 900,   // X position of the cloud
+		y_pos: 100,   // Y position of the cloud
+		width: 150,   // Width of the cloud
+		height: 60    // Height of the cloud
+	}, {
+		x_pos: 1200,   // X position of the cloud
+		y_pos: 100,   // Y position of the cloud
+		width: 150,   // Width of the cloud
+		height: 60    // Height of the cloud
+	}, {
+		x_pos: 1800,   // X position of the cloud
+		y_pos: 100,   // Y position of the cloud
+		width: 150,   // Width of the cloud
+		height: 60    // Height of the cloud
+	}]
+	//mountains
+	mountains = [
+		{
+		x_pos: 10,   // X position of the mountain
+		y_pos: 435,   // Y position of the mountain (height of its base)
+		width: 150,   // Width of the mountain
+		height: 200   // Height of the mountain
+	}, 
+	{
+		x_pos: 100,   // X position of the mountain
+		y_pos: 435,   // Y position of the mountain (height of its base)
+		width: 150,   // Width of the mountain
+		height: 200   // Height of the mountain
+	},
+	{
+		x_pos: 560,   // X position of the mountain
+		y_pos: 435,   // Y position of the mountain (height of its base)
+		width: 100,   // Width of the mountain
+		height: 200   // Height of the mountain
+	},
+	{
+		x_pos: 1000,   // X position of the mountain
+		y_pos: 435,   // Y position of the mountain (height of its base)
+		width: 150,   // Width of the mountain
+		height: 200   // Height of the mountain
+	}]
 }
 
 function draw() {
@@ -36,12 +96,35 @@ function draw() {
 	noStroke();
 	fill(0, 155, 0);
 	rect(0, floorPos_y, width, height - floorPos_y); //draw some green ground
+	// trees
+	for (var i = 0; i < trees_x.length; i++) {
 
-for(var i = 1; tree_x.length; i++){
-	console.log(i)
-}
+		fill(120, 100, 40)
+		rect(trees_x[i], treePos_y, 60, 150)
 
+		fill(0, 155, 0)
+		triangle(trees_x[i] - 50, treePos_y + 50,
+			trees_x[i] + 30, treePos_y - 50, trees_x[i] + 110, treePos_y + 50)
 
+		triangle(trees_x[i] - 50, treePos_y, trees_x[i] + 30, treePos_y - 100, trees_x[i] + 110, treePos_y)
+	}
+	//clouds
+	for (var i = 0; i < clouds.length; i++) {
+		fill(255, 255, 255); // White color for the cloud
+		ellipse(clouds[i].x_pos, clouds[i].y_pos, clouds[i].width, clouds[i].height); // First ellipse (left)
+		ellipse(clouds[i].x_pos + 50, clouds[i].y_pos - 30, clouds[i].width - 30, clouds[i].height - 20); // Second ellipse (middle)
+		ellipse(clouds[i].x_pos + 100, clouds[i].y_pos, clouds[i].width, clouds[i].height);
+
+	}
+	// mountains
+	for (var i = 0; i < mountains.length; i++) {
+		fill(150, 150, 150);// Light gray color for the mountain
+		triangle(
+			mountains[i].x_pos, mountains[i].y_pos,
+			mountains[i].x_pos + mountains[i].width / 2, mountains[i].y_pos - mountains[i].height,
+			mountains[i].x_pos + mountains[i].width, mountains[i].y_pos
+		);
+	}
 	//draw the canyon
 	if (gameChar_x > canyon.x_pos && gameChar_x < canyon.x_pos + canyon.width && gameChar_y >= floorPos_y) {
 		isPlummeting = true;
@@ -238,7 +321,7 @@ for(var i = 1; tree_x.length; i++){
 function keyPressed() {
 	// if statements to control the animation of the character when
 	// keys are pressed.
-	if(isPlummeting){
+	if (isPlummeting) {
 		return  // Prevent movement if the character is plummeting
 	}
 
