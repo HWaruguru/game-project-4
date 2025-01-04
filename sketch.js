@@ -28,67 +28,69 @@ function setup() {
 	collectable = { x_pos: 200, y_pos: 410, size: 50, isFound: false }
 	canyon = { x_pos: 300, width: 100 };
 	//tree
-	trees_x = [10, 480, 680, 900, 1150]
+	trees_x = [10, 480, 680, 900, 1150, 2500]
 	treePos_y = height / 2;
 	//clouds
 	clouds = [
-	{
-		x_pos: 300,   // X position of the cloud
-		y_pos: 100,   // Y position of the cloud
-		width: 150,   // Width of the cloud
-		height: 60    // Height of the cloud
-	}, {
-		x_pos: 600,   // X position of the cloud
-		y_pos: 100,   // Y position of the cloud
-		width: 150,   // Width of the cloud
-		height: 60    // Height of the cloud
-	}, {
-		x_pos: 900,   // X position of the cloud
-		y_pos: 100,   // Y position of the cloud
-		width: 150,   // Width of the cloud
-		height: 60    // Height of the cloud
-	}, {
-		x_pos: 1200,   // X position of the cloud
-		y_pos: 100,   // Y position of the cloud
-		width: 150,   // Width of the cloud
-		height: 60    // Height of the cloud
-	}, {
-		x_pos: 1800,   // X position of the cloud
-		y_pos: 100,   // Y position of the cloud
-		width: 150,   // Width of the cloud
-		height: 60    // Height of the cloud
-	}]
+		{
+			x_pos: 300,   // X position of the cloud
+			y_pos: 100,   // Y position of the cloud
+			width: 150,   // Width of the cloud
+			height: 60    // Height of the cloud
+		}, {
+			x_pos: 600,   // X position of the cloud
+			y_pos: 100,   // Y position of the cloud
+			width: 150,   // Width of the cloud
+			height: 60    // Height of the cloud
+		}, {
+			x_pos: 900,   // X position of the cloud
+			y_pos: 100,   // Y position of the cloud
+			width: 150,   // Width of the cloud
+			height: 60    // Height of the cloud
+		}, {
+			x_pos: 1200,   // X position of the cloud
+			y_pos: 100,   // Y position of the cloud
+			width: 150,   // Width of the cloud
+			height: 60    // Height of the cloud
+		}, {
+			x_pos: 1800,   // X position of the cloud
+			y_pos: 100,   // Y position of the cloud
+			width: 150,   // Width of the cloud
+			height: 60    // Height of the cloud
+		}]
 	//mountains
 	mountains = [
 		{
-		x_pos: 10,   // X position of the mountain
-		y_pos: 435,   // Y position of the mountain (height of its base)
-		width: 150,   // Width of the mountain
-		height: 200   // Height of the mountain
-	}, 
-	{
-		x_pos: 100,   // X position of the mountain
-		y_pos: 435,   // Y position of the mountain (height of its base)
-		width: 150,   // Width of the mountain
-		height: 200   // Height of the mountain
-	},
-	{
-		x_pos: 560,   // X position of the mountain
-		y_pos: 435,   // Y position of the mountain (height of its base)
-		width: 100,   // Width of the mountain
-		height: 200   // Height of the mountain
-	},
-	{
-		x_pos: 1000,   // X position of the mountain
-		y_pos: 435,   // Y position of the mountain (height of its base)
-		width: 150,   // Width of the mountain
-		height: 200   // Height of the mountain
-	}]
+			x_pos: 10,   // X position of the mountain
+			y_pos: 435,   // Y position of the mountain (height of its base)
+			width: 150,   // Width of the mountain
+			height: 200   // Height of the mountain
+		},
+		{
+			x_pos: 100,   // X position of the mountain
+			y_pos: 435,   // Y position of the mountain (height of its base)
+			width: 150,   // Width of the mountain
+			height: 200   // Height of the mountain
+		},
+		{
+			x_pos: 560,   // X position of the mountain
+			y_pos: 435,   // Y position of the mountain (height of its base)
+			width: 100,   // Width of the mountain
+			height: 200   // Height of the mountain
+		},
+		{
+			x_pos: 2000,   // X position of the mountain
+			y_pos: 435,   // Y position of the mountain (height of its base)
+			width: 150,   // Width of the mountain
+			height: 200   // Height of the mountain
+		}]
+	cameraPosX = 0;
 }
 
 function draw() {
 
 	///////////DRAWING CODE//////////
+	cameraPosX = gameChar_x - width / 2;
 
 	background(100, 155, 255); //fill the sky blue
 
@@ -96,6 +98,9 @@ function draw() {
 	noStroke();
 	fill(0, 155, 0);
 	rect(0, floorPos_y, width, height - floorPos_y); //draw some green ground
+	push()
+	translate(-cameraPosX, 0)
+
 	// trees
 	for (var i = 0; i < trees_x.length; i++) {
 
@@ -169,8 +174,6 @@ function draw() {
 		fill(0);
 		rect(gameChar_x - 20, gameChar_y - 50, 10, 15);
 		rect(gameChar_x + 13, gameChar_y - 50, 10, 15);
-
-
 
 	}
 	else if (isRight && isFalling) {
@@ -326,10 +329,8 @@ function keyPressed() {
 	}
 
 	if (keyCode == 37) {
-		console.log("left arrow")
 		isLeft = true;
 	} else if (keyCode == 39) {
-		console.log('right arrow')
 		isRight = true;
 	}
 	if (keyCode == 38) {
@@ -349,23 +350,18 @@ function keyPressed() {
 		}
 	}
 
-	//open up the console to see how these work
-	console.log("keyPressed: " + key);
-	console.log("keyPressed: " + keyCode);
+	pop()
 }
 
 function keyReleased() {
 	// if statements to control the animation of the character when
 	// keys are released.
 	if (keyCode == 37) {
-		console.log("left arrow")
 		isLeft = false;
 	} else if (keyCode == 39) {
-		console.log('right arrow')
 		isRight = false;
 	}
-	console.log("keyReleased: " + key);
-	console.log("keyReleased: " + keyCode);
+
 }
 
 
