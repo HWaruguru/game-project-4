@@ -33,56 +33,50 @@ function setup() {
 	//clouds
 	clouds = [
 		{
-			x_pos: 300,   // X position of the cloud
-			y_pos: 100,   // Y position of the cloud
-			width: 150,   // Width of the cloud
-			height: 60    // Height of the cloud
+			x_pos: 300,   
+			y_pos: 100,   
+			width: 150,   
+			height: 60    
 		}, {
-			x_pos: 600,   // X position of the cloud
-			y_pos: 100,   // Y position of the cloud
-			width: 150,   // Width of the cloud
-			height: 60    // Height of the cloud
+			x_pos: 600,   
+			y_pos: 100,   
+			width: 150,   
+			height: 60    
 		}, {
-			x_pos: 900,   // X position of the cloud
-			y_pos: 100,   // Y position of the cloud
-			width: 150,   // Width of the cloud
-			height: 60    // Height of the cloud
+			x_pos: 900,   
+			y_pos: 100,   
+			width: 150,   
+			height: 60    
 		}, {
-			x_pos: 1200,   // X position of the cloud
-			y_pos: 100,   // Y position of the cloud
-			width: 150,   // Width of the cloud
-			height: 60    // Height of the cloud
+			x_pos: 1200,   
+			y_pos: 100,   
+			width: 150,   
+			height: 60    
 		}, {
-			x_pos: 1800,   // X position of the cloud
-			y_pos: 100,   // Y position of the cloud
-			width: 150,   // Width of the cloud
-			height: 60    // Height of the cloud
+			x_pos: 1800,   
+			y_pos: 100,   
+			width: 150,   
+			height: 60    
 		}]
 	//mountains
 	mountains = [
 		{
-			x_pos: 10,   // X position of the mountain
-			y_pos: 435,   // Y position of the mountain (height of its base)
-			width: 150,   // Width of the mountain
-			height: 200   // Height of the mountain
+			x_pos: 100,   
+			y_pos: 435,   
+			width: 150,   
+			height: 200   
 		},
 		{
-			x_pos: 100,   // X position of the mountain
-			y_pos: 435,   // Y position of the mountain (height of its base)
-			width: 150,   // Width of the mountain
-			height: 200   // Height of the mountain
+			x_pos: 560,   
+			y_pos: 435,   
+			width: 100,   
+			height: 200   
 		},
 		{
-			x_pos: 560,   // X position of the mountain
-			y_pos: 435,   // Y position of the mountain (height of its base)
-			width: 100,   // Width of the mountain
-			height: 200   // Height of the mountain
-		},
-		{
-			x_pos: 2000,   // X position of the mountain
-			y_pos: 435,   // Y position of the mountain (height of its base)
-			width: 150,   // Width of the mountain
-			height: 200   // Height of the mountain
+			x_pos: 2000,   
+			y_pos: 435,   
+			width: 150,   
+			height: 200   
 		}]
 	cameraPosX = 0;
 }
@@ -96,8 +90,9 @@ function draw() {
 
 
 	noStroke();
+	//draw some green ground
 	fill(0, 155, 0);
-	rect(0, floorPos_y, width, height - floorPos_y); //draw some green ground
+	rect(0, floorPos_y, width, height - floorPos_y); 
 	push()
 	translate(-cameraPosX, 0)
 
@@ -136,7 +131,7 @@ function draw() {
 	} else {
 		isPlummeting = false
 	}
-	fill(100, 100, 255);  // Blue color for the canyon
+	fill(100, 100, 255);  
 	rect(canyon.x_pos, floorPos_y, canyon.width, height - floorPos_y);
 	//collectable
 
@@ -298,9 +293,7 @@ function draw() {
 
 	}
 
-
-	///////////INTERACTION CODE//////////
-	//Put conditional statements to move the game character below here
+	//move the game character 
 	if (isLeft == true) {
 		gameChar_x -= 5
 	}
@@ -329,23 +322,30 @@ function keyPressed() {
 	}
 
 	if (keyCode == 37) {
+		console.log('37')
 		isLeft = true;
 	} else if (keyCode == 39) {
 		isRight = true;
 	}
+
 	if (keyCode == 38) {
-		if (isFalling = true) {
+		console.log('38')
+		if (isFalling == true) {
+			gameChar_y -= 100
+		} else {
 			gameChar_y -= 100
 		}
 
 	}
 	if (keyCode == 38 && isLeft) {
+		console.log('38 left')
 		if (isFalling == true) {
 			gameChar_y -= 100
 		}
 	}
 	if (keyCode == 38 && isRight) {
-		if (isFalling = true) {
+		console.log('38 right')
+		if (isFalling == true) {
 			gameChar_y -= 100
 		}
 	}
