@@ -1,29 +1,31 @@
 // Game project 6 Adding Game Mechanics
-var gameChar_x;
-var gameChar_y;
-var floorPos_y;
-var isRight;
-var isLeft;
-var isPlummeting;
-var isFalling;
-var collectable;
-var scrollPos = 0;
-var trees_x;
-var treePos_y;
-var clouds;
-var mountains;
-var cameraPosX;
-var collectables;
-var canyons;
-var gameScore;
-var flagpole;
-var gameChar_world_x;
-var lives;
-var platforms;
-var enemies;
-var jumpSound;
-var collectCoinSound;
-var gameOverSound;
+let gameChar_x;
+let gameChar_y;
+let floorPos_y;
+let isRight;
+let isLeft;
+let isPlummeting;
+let isFalling;
+let collectable;
+let scrollPos = 0;
+let trees_x;
+let treePos_y;
+let clouds;
+let mountains;
+let cameraPosX;
+let collectables;
+let canyons;
+let gameScore;
+let flagpole;
+let gameChar_world_x;
+let lives;
+let platforms;
+let enemies;
+let jumpSound;
+let collectCoinSound;
+let gameOverSound;
+let reachFlagSound;
+let enemySound;
 
 function setup() {
   createCanvas(1024, 576);
@@ -74,15 +76,16 @@ function draw() {
   //flagpole
   renderFlagpole();
   //draw the canyon
-  for (var i = 0; i < canyons.length; i++) {
+  for (let i = 0; i < canyons.length; i++) {
     drawCanyon(canyons[i]);
     checkCanyon(canyons[i]);
   }
 
-  for (var i = 0; i < enemies.length; i++) {
+  for (let i = 0; i < enemies.length; i++) {
     enemies[i].draw();
-    var isContact = enemies[i].checkContact(gameChar_world_x, gameChar_y);
+    let isContact = enemies[i].checkContact(gameChar_world_x, gameChar_y);
     if (isContact) {
+      enemySound.play();
       if (lives > 0) {
         startGame();
         break;
@@ -91,12 +94,12 @@ function draw() {
   }
 
   //collectable
-  for (var i = 0; i < collectables.length; i++) {
+  for (let i = 0; i < collectables.length; i++) {
     drawCollectable(collectables[i]);
     checkCollectable(collectables[i]);
   }
 
-  for (var i = 0; i < platforms.length; i++) {
+  for (let i = 0; i < platforms.length; i++) {
     platforms[i].draw();
   }
   //the game character
@@ -113,8 +116,9 @@ function draw() {
   }
 
   if (gameChar_y < floorPos_y && !isPlummeting) {
-    var isContact = false;
-    for (var i = 0; i < platforms.length; i++) {
+    
+    let isContact = false;
+    for (let i = 0; i < platforms.length; i++) {
       if (platforms[i].checkContact(gameChar_world_x, gameChar_y)) {
         isContact = true;
         isPlatformContact = true;
@@ -166,6 +170,10 @@ function preload() {
   collectCoinSound.setVolume(0.1);
   gameOverSound = loadSound("assets/gameover.mp3");
   gameOverSound.setVolume(0.1);
+  reachFlagSound = loadSound("assets/reach-flag.wav");
+  reachFlagSound.setVolume(0.1);
+  enemySound = loadSound("assets/enemy-roar.mp3");
+  enemySound.setVolume(0.1);
 }
 
 function keyPressed() {
@@ -211,7 +219,7 @@ function keyReleased() {
 }
 
 function drawClouds() {
-  for (var i = 0; i < clouds.length; i++) {
+  for (let i = 0; i < clouds.length; i++) {
     fill(255, 255, 255); // White color for the cloud
     ellipse(
       clouds[i].x_pos,
@@ -235,7 +243,7 @@ function drawClouds() {
 }
 
 function drawMountains() {
-  for (var i = 0; i < mountains.length; i++) {
+  for (let i = 0; i < mountains.length; i++) {
     fill(150, 150, 150); // Light gray color for the mountain
     triangle(
       mountains[i].x_pos,
@@ -249,7 +257,7 @@ function drawMountains() {
 }
 
 function drawTrees() {
-  for (var i = 0; i < trees_x.length; i++) {
+  for (let i = 0; i < trees_x.length; i++) {
     fill(120, 100, 40);
     rect(trees_x[i], treePos_y, 60, 150);
 
@@ -436,7 +444,7 @@ function gameOver() {
     textSize(32);
     noStroke();
     text("Game over!!!", 70, 50);
-    gameOverSound.play(-7, 1, 1, 0, 3)
+    gameOverSound.play(-7, 1, 1, 0, 3);
     noLoop(); // Stops the draw loop, effectively pausing the game
   }
 }
@@ -498,8 +506,8 @@ function checkCollectable(t_collectable) {
 
 function checkCanyon(t_canyon) {
   isPlummeting = false; // Default to false at the start of the loop
-  for (var i = 0; i < canyons.length; i++) {
-    var canyon = canyons[i];
+  for (let i = 0; i < canyons.length; i++) {
+    let canyon = canyons[i];
     if (
       gameChar_x > canyon.x_pos &&
       gameChar_x < canyon.x_pos + canyon.width &&
@@ -512,9 +520,10 @@ function checkCanyon(t_canyon) {
 }
 
 function checkFlagpole() {
-  var d = abs(gameChar_world_x - flagpole.x_pos);
+  let d = abs(gameChar_world_x - flagpole.x_pos);
   if (d < 15) {
     flagpole.isReached = true;
+    reachFlagSound.play();
   }
 }
 
@@ -618,7 +627,7 @@ function startGame() {
 }
 
 function createPlatforms(x, y, length) {
-  var p = {
+  let p = {
     x: x,
     y: y,
     length: length,
@@ -628,7 +637,7 @@ function createPlatforms(x, y, length) {
     },
     checkContact: function (gc_x, gc_y) {
       if (gc_x > this.x && gc_x < this.x + this.length) {
-        var d = this.y - gc_y;
+        let d = this.y - gc_y;
         if (d == -2) {
           return true;
         }
@@ -659,7 +668,7 @@ function Enemy(x, y, range) {
     ellipse(this.currentX, this.y, 20, 20);
   };
   this.checkContact = function (gc_x, gc_y) {
-    var d = dist(gc_x, gc_y, this.currentX, this.y);
+    let d = dist(gc_x, gc_y, this.currentX, this.y);
     if (d < 20) {
       return true;
     }
